@@ -5,9 +5,12 @@ import com.example.EmployeeManagementSystem.entity.Employee;
 import com.example.EmployeeManagementSystem.exception.ApiRequestException;
 import com.example.EmployeeManagementSystem.repository.EmployeeRepository;
 import com.example.EmployeeManagementSystem.service.EmployeeService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
@@ -19,20 +22,34 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    // saving new employee
     public Employee createEmployee(Employee employee) {
+        // check if email is not already taken by other employee
+        Optional<Employee> employeeEmailExist= employeeRepository.findByEmail(employee.getEmail());
+        if(employeeEmailExist.isPresent()){
+            throw new ApiRequestException("This email already exist in our database");
+        }
+        // check if phone is not already used by other doctor
+        Optional<Employee> employeePhoneExist=employeeRepository.findByPhoneNumber(employee.getPhoneNumber());
+        if(employeePhoneExist.isPresent()){
+            throw new ApiRequestException("This phone number already exist in our database");
+        }
         return employeeRepository.save(employee);
     }
 
+    //returning all employee
     @Override
     public List<Employee> getAllEmployees() {
         return employeeRepository.findAll();
     }
 
+    // returning single employee
     @Override
     public Employee getSingleEmployeeById(long id) {
         return employeeRepository.findById(id).orElseThrow(()->new ApiRequestException("This id  don't exist in our database"));
     }
 
+    // updating employee
     @Override
     public Employee updateEmployee(Employee employee , long id) {
         Employee existEmployee = employeeRepository.findById(id).orElseThrow(()->new ApiRequestException("This id  don't exist in our database"));
@@ -49,7 +66,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepository.save(existEmployee);
         return existEmployee;
     }
-
+    //deleting an employee
     @Override
     public void deleteEmployee(long id) {
         employeeRepository.findById(id).orElseThrow(()->new ApiRequestException("This id  don't exist in our database"));
