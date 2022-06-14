@@ -10,5 +10,8 @@ import java.util.List;
 
 public interface EmployeementService{
     Employment makeEmployement(long emp_id ,long comp_id);
+    Employment assigningCompanyToEmployees(long emp_id ,long comp_id);
     Company getCompanyEmployee(long comp_id);
+
+    Employee getEmployeeCompanies(long empId);
 }
