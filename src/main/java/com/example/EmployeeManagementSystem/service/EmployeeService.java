@@ -1,8 +1,10 @@
 package com.example.EmployeeManagementSystem.service;
 
 import com.example.EmployeeManagementSystem.entity.Employee;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 
 public interface EmployeeService {
    Employee createEmployee(Employee employee);

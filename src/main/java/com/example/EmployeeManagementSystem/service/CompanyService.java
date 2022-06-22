@@ -1,6 +1,7 @@
 package com.example.EmployeeManagementSystem.service;
 
 import com.example.EmployeeManagementSystem.entity.Company;
+import com.example.EmployeeManagementSystem.entity.Employee;
 
 import java.util.List;
 
@@ -9,9 +10,11 @@ public interface CompanyService {
 
     List<Company> getAllCompanies();
 
-    Company getSingleCompanyById(Long id);
+    Company getSingleCompanyById(long id);
 
     Company updateCompany(Company company , long id);
+
+    Company assignEmployeeCompany(long comp_id , long emp_id );
 
     void deleteCompany(long id);
 }

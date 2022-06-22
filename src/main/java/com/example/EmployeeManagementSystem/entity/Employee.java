@@ -29,13 +29,14 @@ import java.util.List;
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "emp_id" , nullable = false)
     private long id;
     @Column(name = "First_Name" , nullable = false)
     private String firstName;
     @Column(name = "Last_Name" , nullable = false)
     private String lastName;
     @Column(name = "Department_Name" )
-    private String DepartmentName;
+    private String departmentName;
     @Column(name = "Date_Of_Birth")
     private LocalDate dob;
     @Column(name = "Email" , nullable = false)
@@ -45,21 +46,11 @@ public class Employee {
     private String gender;
     private long salary;
     private LocalDate createdDate = LocalDate.now();
-
-    public Employee(Company company) {
-        this.company = company;
-    }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="company_id")
-    private Company company;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "emp_company",
+            joinColumns= @JoinColumn(name="emp_id"),
+            inverseJoinColumns = @JoinColumn(name="company_id")
+    )
+    private List <Company> companies;
 
 }

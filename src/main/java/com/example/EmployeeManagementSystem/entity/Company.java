@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -19,7 +20,8 @@ import java.util.Set;
 public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "company_id" , nullable = false)
+    private long id;
     @Column(name = "Tin_Number" , nullable = false)
     private Long tinNumber;
     @Column(name = "Company_Name")
@@ -28,4 +30,7 @@ public class Company {
     private String companyCategory;
     @Column(name = "Created_At")
     private LocalDate createdDate = LocalDate.now();
+    @ManyToMany()
+    private List <Employee> employees;
+
 }
